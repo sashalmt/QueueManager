@@ -1,28 +1,42 @@
+// src/main/java/com/example/queue/service/QueueService.java
 package com.example.queue;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
+import com.example.queue.Message;
+import com.example.queue.MessageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- * This class represents a Queue Service.
- * It implements ConcurrentLinkedQueue which is a queue that can handle multiple threads
- * It has enqueue, dequeue and getSize
- */
+import java.util.List;
+import java.util.Optional;
+
 @Service
-public class QueueService{
+public class QueueService {
 
-    private ConcurrentLinkedQueue<Message> queue = new ConcurrentLinkedQueue<>();
+    @Autowired
+    private MessageRepository messageRepository;
 
-    public void enqueue(Message message){
-        queue.add(message);
+    @Transactional
+    public void enqueue(Message message) {
+        messageRepository.save(message);
     }
 
-    public Message dequeue(){
-        return queue.poll();
+    @Transactional
+    public Message dequeue() {
+        Message message = messageRepository.findFirstByOrderByIdAsc();
+        if (message == null) {
+            System.out.println("Queue is Empty");
+            return null;
+        }
+        messageRepository.delete(message);
+        return message;
     }
 
-    public int getSize(){
-        return queue.size();
+    public long getQueueSize() {
+        return messageRepository.count();
     }
 
+    public List<Message> getAllMessages() {
+        return messageRepository.findAll();
+    }
 }

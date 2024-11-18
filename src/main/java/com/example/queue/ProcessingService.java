@@ -26,7 +26,7 @@ public class ProcessingService{
                 0L,
                 TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>(threadPoolSize),
-                new ThreadPoolExecutor.AbortPolicy() // Rejects tasks when the queue is full
+                new ThreadPoolExecutor.AbortPolicy()
         );
     }
 
@@ -44,6 +44,7 @@ public class ProcessingService{
 
                 //Add a random error
                 if (0 == rand.nextInt(3)){
+                    System.out.println("Message Failed To Process");
                     throw new RuntimeException("Oh no your message failed to process");
                 }
 

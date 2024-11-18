@@ -1,46 +1,41 @@
 package com.example.queue;
 
+import com.example.queue.Message;
+import com.example.queue.QueueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/queue")
-public class QueueController{
+public class QueueController {
 
     @Autowired
     private QueueService queueService;
 
-    @Autowired
-    private ProcessingService processingService;
-
-    // POST /queue/enqueue
     @PostMapping("/enqueue")
-    public ResponseEntity<String> enqueue(@RequestBody Message message){
+    public ResponseEntity<String> enqueue(@RequestBody Message message) {
         queueService.enqueue(message);
-        return ResponseEntity.ok("Message enqueued successfully :)");
+        return ResponseEntity.ok("Enqueued Message:" + message.getContent());
     }
 
-    // GET /queue/dequeue
     @GetMapping("/dequeue")
-    public ResponseEntity<String> dequeue(){
-        Message message = queueService.dequeue();
-
-        if(message == null){
-            return ResponseEntity.ok("Queue is empty");
+    public ResponseEntity<String> dequeue() {
+        if (queueService.dequeue() == null){
+            return  ResponseEntity.ok("Queue is empty");
         }
-
-        processingService.processMessage(message);
-        return ResponseEntity.ok("Message dequeue successfully and processing...");
-
+        return ResponseEntity.ok("Dequeue Message and starting processing...");
     }
 
-    // GET /queue/queue-size
     @GetMapping("/queue-size")
-    public ResponseEntity<Integer> getSize() {
-        int size = queueService.getSize();
-        return ResponseEntity.ok(size);
+    public Long getQueueSize() {
+        return queueService.getQueueSize();
     }
 
+    @GetMapping("/messages")
+    public List<Message> getAllMessages() {
+        return queueService.getAllMessages();
+    }
 }

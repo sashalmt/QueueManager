@@ -1,26 +1,52 @@
 package com.example.queue;
 
-/**
- * This class represents a Message.
- * It holds the content of the message
- */
-public class Message{
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "messages")
+public class Message {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String content;
 
-    // default constructor
-    public Message() {}
+    private LocalDateTime enqueueTime;
 
-    public Message(String content){
-        this.content = content;
+    // default constructor required by JPA
+    public Message() {
+        this.enqueueTime = LocalDateTime.now();
     }
 
-    // Getter Function
-    public String getContent(){
+    public Message(String content) {
+        this.content = content;
+        this.enqueueTime = LocalDateTime.now();
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public String getContent() {
         return content;
     }
 
-    // Setter Function
-    public void setContent(String content){
+    public LocalDateTime getEnqueueTime() {
+        return enqueueTime;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setContent(String content) {
         this.content = content;
+    }
+
+    public void setEnqueueTime(LocalDateTime enqueueTime) {
+        this.enqueueTime = enqueueTime;
     }
 }
