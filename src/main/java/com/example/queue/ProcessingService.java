@@ -40,10 +40,11 @@ public class ProcessingService{
 
                 //Sleep for a random amount of time to simulated processing
                 Random rand = new Random();
-                Thread.sleep(1000*(rand.nextInt(5)+1));
+
+                Thread.sleep(3000);
 
                 //Add a random error
-                if (0 == rand.nextInt(3)){
+                if (rand.nextInt(3) == 0){
                     System.out.println("Message Failed To Process");
                     throw new RuntimeException("Oh no your message failed to process");
                 }

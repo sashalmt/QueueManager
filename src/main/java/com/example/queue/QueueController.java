@@ -15,6 +15,9 @@ public class QueueController {
     @Autowired
     private QueueService queueService;
 
+    @Autowired
+    private ProcessingService processingService;
+
     @PostMapping("/enqueue")
     public ResponseEntity<String> enqueue(@RequestBody Message message) {
         queueService.enqueue(message);
@@ -23,9 +26,11 @@ public class QueueController {
 
     @GetMapping("/dequeue")
     public ResponseEntity<String> dequeue() {
-        if (queueService.dequeue() == null){
+        Message message = queueService.dequeue();
+        if (message == null){
             return  ResponseEntity.ok("Queue is empty");
         }
+        processingService.processMessage(message);
         return ResponseEntity.ok("Dequeue Message and starting processing...");
     }
 
