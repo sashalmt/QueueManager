@@ -3,6 +3,7 @@ package com.example.queue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.Random;
@@ -30,26 +31,24 @@ public class ProcessingService{
         );
     }
 
-    public void processMessage(Message message){
+    public void processMessage(Message message,long dequeueTime){
         executorService.submit(() -> {
             //Simulate message processing
             try {
                 System.out.println("Started Processing Message");
-                long curTime = System.currentTimeMillis();
+
                 String content = message.getContent();
-
-                //Sleep for a random amount of time to simulated processing
-                Random rand = new Random();
-
+                //Sleep for 3 seconds
                 Thread.sleep(3000);
 
                 //Add a random error
-                if (rand.nextInt(3) == 0){
+                Random rand = new Random();
+                if (rand.nextInt(5) == 0){
                     System.out.println("Message Failed To Process");
                     throw new RuntimeException("Oh no your message failed to process");
                 }
 
-                System.out.println("Finished Processing Message " + content + " | " + (System.currentTimeMillis() - curTime) + "ms");
+                System.out.println("Finished Processing Message " + content + " | " + (System.currentTimeMillis() - dequeueTime) + "ms");
             } catch (Exception e){
                 Thread.currentThread().interrupt();
             }

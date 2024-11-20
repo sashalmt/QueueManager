@@ -30,7 +30,7 @@ public class QueueController {
         if (message == null){
             return  ResponseEntity.ok("Queue is empty");
         }
-        processingService.processMessage(message);
+        processingService.processMessage(message, System.currentTimeMillis());
         return ResponseEntity.ok("Dequeue Message and starting processing...");
     }
 

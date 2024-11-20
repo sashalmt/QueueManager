@@ -13,16 +13,12 @@ public class Message {
 
     private String content;
 
-    private LocalDateTime enqueueTime;
-
     // default constructor required by JPA
     public Message() {
-        this.enqueueTime = LocalDateTime.now();
     }
 
     public Message(String content) {
         this.content = content;
-        this.enqueueTime = LocalDateTime.now();
     }
 
     // Getters and Setters
@@ -34,10 +30,6 @@ public class Message {
         return content;
     }
 
-    public LocalDateTime getEnqueueTime() {
-        return enqueueTime;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -46,7 +38,4 @@ public class Message {
         this.content = content;
     }
 
-    public void setEnqueueTime(LocalDateTime enqueueTime) {
-        this.enqueueTime = enqueueTime;
-    }
 }
