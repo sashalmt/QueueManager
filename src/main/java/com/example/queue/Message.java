@@ -1,7 +1,6 @@
 package com.example.queue;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "messages")
@@ -13,7 +12,7 @@ public class Message {
 
     private String content;
 
-    // default constructor required by JPA
+    // default constructor required by jpa
     public Message() {
     }
 

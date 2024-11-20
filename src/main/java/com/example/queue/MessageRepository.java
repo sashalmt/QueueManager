@@ -8,9 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-    // Find the oldest message based on ID (FIFO)
+    // Find the oldest message based on id
     Message findFirstByOrderByIdAsc();
 
-    // Alternatively, based on enqueueTime
-    // Message findFirstByOrderByEnqueueTimeAsc();
+    // Alternative using an enqueue time ??
 }

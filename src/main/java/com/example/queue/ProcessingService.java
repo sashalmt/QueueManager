@@ -33,15 +33,15 @@ public class ProcessingService{
 
     public void processMessage(Message message,long dequeueTime){
         executorService.submit(() -> {
-            //Simulate message processing
+            //  Simulate message processing
             try {
                 System.out.println("Started Processing Message");
 
                 String content = message.getContent();
-                //Sleep for 3 seconds
+                // Sleep for 3 seconds
                 Thread.sleep(3000);
 
-                //Add a random error
+                // Add a random error
                 Random rand = new Random();
                 if (rand.nextInt(5) == 0){
                     System.out.println("Message Failed To Process");
